@@ -1,0 +1,48 @@
+<%= link_to "Download CSV", repos_path + ".csv"%>
+<center>
+  <h2> GitHub Graphql API Demo</h2>
+  <h3>Total Repos :- <%= @repositories.total_count %> </h3>
+</center>
+<div class="row">
+  <div class="col-md-7">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Languages</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%@repositories.nodes.each do |repository|%>
+          <tr>
+            <td><%= repository.name %></td>
+            <td>
+              <% repository.languages.nodes.each do |language|%>
+                <%=  language.name %>,
+              <% end %>
+            </td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-4 col-md-offset-1">
+    <div>
+      Top 5 common languages
+      <ul>
+        <%common_languages(@repositories.nodes).first(5).each do |lang|%>
+          <li><%=lang[0]%>:- <%=lang[1]%></li>
+        <%end%>
+      </ul>
+    </div>
+
+    <div>
+      Least 5 common languages
+      <ul>
+        <%common_languages(@repositories.nodes).last(5).each do |lang|%>
+          <li><%=lang[0]%>:- <%=lang[1]%></li>
+        <%end%>
+      </ul>
+    </div>
+  </div>
+</div>
